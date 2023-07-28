@@ -9,22 +9,22 @@
 - `README.md`: 本文件，提供项目说明
 - `Inc/`: BSP头文件
 - `Src/`: BSP源代码
+- `bsp_config.h`: BSP配置文件
 
 ## 使用方法
 
 1. 克隆或下载该项目源代码。
 
-    ```bash
-    git clone https://github.com/wuyi03/lib_dsp.git
-    ```
-
+   ```bash
+   git clone https://github.com/wuyi03/lib_dsp.git
+   ```
 2. 在你的项目中添加该BSP的源代码。
-
-3. 在你的应用程序中使用BSP提供的API进行开发。
+3. 根据你的实际应用，修改BSP中提供的 `bsp_config.h`配置文件。
+4. 在你的应用程序中使用BSP提供的API进行开发。
 
 ## 基于的开发板
 
--   LAUNCHXL-F280049C
+- LAUNCHXL-F280049C
 
 ## 贡献
 

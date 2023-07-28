@@ -9,6 +9,5 @@
  *
  */
 
-#include "F28x_Project.h"
 #include "Y_epwm.h"
 

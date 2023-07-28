@@ -169,14 +169,14 @@ void fill_picture(unsigned char fill_Data)
 /**
  * @brief delay
  */
-static void Delay_50ms(unsigned int Del_50ms)
+void Delay_50ms(unsigned int Del_50ms)
 {
 	unsigned int m;
 	for (; Del_50ms > 0; Del_50ms--)
 		for (m = 6245; m > 0; m--);
 }
 
-static void Delay_1ms(unsigned int Del_1ms)
+void Delay_1ms(unsigned int Del_1ms)
 {
 	unsigned char j;
 	while (Del_1ms--)

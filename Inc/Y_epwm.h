@@ -11,9 +11,7 @@
 
 #ifndef CODE_Y_EPWM_H_
 #define CODE_Y_EPWM_H_
-#include "device.h"
-#include "F28x_Project.h"
-#include "board.h"
+#include "bsp_config.h"
 
 
 #endif /* CODE_Y_EPWM_H_ */

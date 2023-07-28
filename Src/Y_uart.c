@@ -9,6 +9,8 @@
  * 
  */
 #include "Y_uart.h"
+#include "stdio.h"
+#include "string.h"
 
 int fputc(int _c, register FILE *_fp)
 {

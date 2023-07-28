@@ -64,9 +64,9 @@ void IIC_Wait_Ack()
 	// delay_us(50000);
 	/*	while(1)
 		{
-			if(!OLED_SDA)				
+			if(!OLED_SDA)
 			{
-				//GPIOB->CRH &= 0XFFF0FFFF;	
+				//GPIOB->CRH &= 0XFFF0FFFF;
 				//GPIOB->CRH |= 0x00030000;
 				return;
 			}
@@ -76,9 +76,10 @@ void IIC_Wait_Ack()
 	OLED_SCLK_Clr();
 }
 
-/**********************************************
-// IIC Write byte
-**********************************************/
+/**
+ * @brief IIC Write byte
+ * @param IIC_Byte Write byte
+ */
 void Write_IIC_Byte(unsigned char IIC_Byte)
 {
 	unsigned char i;
@@ -101,9 +102,11 @@ void Write_IIC_Byte(unsigned char IIC_Byte)
 		OLED_SCLK_Clr();
 	}
 }
-/**********************************************
-// IIC Write Command
-**********************************************/
+
+/**
+ * @brief IIC Write command
+ * @param IIC_Command Write command
+ */
 void Write_IIC_Command(unsigned char IIC_Command)
 {
 	IIC_Start();
@@ -115,9 +118,11 @@ void Write_IIC_Command(unsigned char IIC_Command)
 	IIC_Wait_Ack();
 	IIC_Stop();
 }
-/**********************************************
-// IIC Write Data
-**********************************************/
+
+/**
+ * @brief IIC Write data
+ * @param IIC_Data Write data
+ */
 void Write_IIC_Data(unsigned char IIC_Data)
 {
 	IIC_Start();
@@ -142,17 +147,18 @@ void OLED_WR_Byte(unsigned dat, unsigned cmd)
 	}
 }
 
-/********************************************
-// fill_Picture
-********************************************/
+/**
+ * @brief fill picture
+ * @param fill_Data picture data
+ */
 void fill_picture(unsigned char fill_Data)
 {
 	unsigned char m, n;
 	for (m = 0; m < 8; m++)
 	{
-		OLED_WR_Byte(0xb0 + m, 0); // page0-page1
-		OLED_WR_Byte(0x00, 0);	   // low column start address
-		OLED_WR_Byte(0x10, 0);	   // high column start address
+		OLED_WR_Byte(0xb0 + m, 0);  // page0-page1
+		OLED_WR_Byte(0x00, 0);	  // low column start address
+		OLED_WR_Byte(0x10, 0);	  // high column start address
 		for (n = 0; n < 128; n++)
 		{
 			OLED_WR_Byte(fill_Data, 1);
@@ -160,26 +166,30 @@ void fill_picture(unsigned char fill_Data)
 	}
 }
 
-/***********************Delay****************************************/
-void Delay_50ms(unsigned int Del_50ms)
+/**
+ * @brief delay
+ */
+static void Delay_50ms(unsigned int Del_50ms)
 {
 	unsigned int m;
 	for (; Del_50ms > 0; Del_50ms--)
-		for (m = 6245; m > 0; m--)
-			;
+		for (m = 6245; m > 0; m--);
 }
 
-void Delay_1ms(unsigned int Del_1ms)
+static void Delay_1ms(unsigned int Del_1ms)
 {
 	unsigned char j;
 	while (Del_1ms--)
 	{
-		for (j = 0; j < 123; j++)
-			;
+		for (j = 0; j < 123; j++);
 	}
 }
 
-
+/**
+ * @brief set position
+ * @param x x position
+ * @param y y position
+ */
 void OLED_Set_Pos(unsigned char x, unsigned char y)
 {
 	OLED_WR_Byte(0xb0 + y, OLED_CMD);
@@ -187,6 +197,9 @@ void OLED_Set_Pos(unsigned char x, unsigned char y)
 	OLED_WR_Byte((x & 0x0f), OLED_CMD);
 }
 
+/**
+ * @brief OLED display on
+ */
 void OLED_Display_On(void)
 {
 	OLED_WR_Byte(0X8D, OLED_CMD); // SET DCDC
@@ -194,6 +207,9 @@ void OLED_Display_On(void)
 	OLED_WR_Byte(0XAF, OLED_CMD); // DISPLAY ON
 }
 
+/**
+ * @brief OLED display off
+ */
 void OLED_Display_Off(void)
 {
 	OLED_WR_Byte(0X8D, OLED_CMD); // SET DCDC
@@ -201,36 +217,50 @@ void OLED_Display_Off(void)
 	OLED_WR_Byte(0XAE, OLED_CMD); // DISPLAY OFF
 }
 
+/**
+ * @brief clear screen
+ * @param dat 
+ */
 void OLED_Clear(unsigned dat)
 {
 	uint8_t i, n;
 	for (i = 0; i < 8; i++)
 	{
-		OLED_WR_Byte(0xb0 + i, OLED_CMD); 
-		OLED_WR_Byte(0x00, OLED_CMD);	  
-		OLED_WR_Byte(0x10, OLED_CMD);	  
+		OLED_WR_Byte(0xb0 + i, OLED_CMD);
+		OLED_WR_Byte(0x00, OLED_CMD);
+		OLED_WR_Byte(0x10, OLED_CMD);
 		for (n = 0; n < 128; n++)
 			OLED_WR_Byte(dat, OLED_DATA);
-	} 
+	}
 }
 
+/**
+ * @brief OLED display on
+ */
 void OLED_On(void)
 {
 	uint8_t i, n;
 	for (i = 0; i < 8; i++)
 	{
-		OLED_WR_Byte(0xb0 + i, OLED_CMD); 
-		OLED_WR_Byte(0x00, OLED_CMD);	  
-		OLED_WR_Byte(0x10, OLED_CMD);	  
+		OLED_WR_Byte(0xb0 + i, OLED_CMD);
+		OLED_WR_Byte(0x00, OLED_CMD);
+		OLED_WR_Byte(0x10, OLED_CMD);
 		for (n = 0; n < 128; n++)
 			OLED_WR_Byte(1, OLED_DATA);
 	}
 }
 
+/**
+ * @brief OLED Show Char
+ * @param x x position
+ * @param y y position
+ * @param chr character
+ * @param Char_Size char size 12|16
+ */
 void OLED_ShowChar(uint8_t x, uint8_t y, uint8_t chr, uint8_t Char_Size)
 {
 	unsigned char c = 0, i = 0;
-	c = chr - ' '; 
+	c = chr - ' ';
 	if (x > Max_Column - 1)
 	{
 		x = 0;
@@ -253,6 +283,12 @@ void OLED_ShowChar(uint8_t x, uint8_t y, uint8_t chr, uint8_t Char_Size)
 	}
 }
 
+/**
+ * @brief 
+ * @param m 
+ * @param n 
+ * @return uint32_t 
+ */
 uint32_t oled_pow(uint8_t m, uint8_t n)
 {
 	uint32_t result = 1;
@@ -261,6 +297,15 @@ uint32_t oled_pow(uint8_t m, uint8_t n)
 	return result;
 }
 
+/**
+ * @brief 
+ * 
+ * @param x 
+ * @param y 
+ * @param num 
+ * @param len 
+ * @param size2 
+ */
 void OLED_ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size2)
 {
 	uint8_t t, temp;
@@ -282,6 +327,14 @@ void OLED_ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size2
 	}
 }
 
+/**
+ * @brief 
+ * 
+ * @param x 
+ * @param y 
+ * @param chr 
+ * @param Char_Size 
+ */
 void OLED_ShowString(uint8_t x, uint8_t y, uint8_t *chr, uint8_t Char_Size)
 {
 	unsigned char j = 0;
@@ -298,6 +351,13 @@ void OLED_ShowString(uint8_t x, uint8_t y, uint8_t *chr, uint8_t Char_Size)
 	}
 }
 
+/**
+ * @brief 
+ * 
+ * @param x 
+ * @param y 
+ * @param no 
+ */
 void OLED_ShowCHinese(uint8_t x, uint8_t y, uint8_t no)
 {
 	uint8_t t, adder = 0;
@@ -315,6 +375,15 @@ void OLED_ShowCHinese(uint8_t x, uint8_t y, uint8_t no)
 	}
 }
 
+/**
+ * @brief 
+ * 
+ * @param x0 
+ * @param y0 
+ * @param x1 
+ * @param y1 
+ * @param BMP 
+ */
 void OLED_DrawBMP(unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1, unsigned char BMP[])
 {
 	unsigned int j = 0;
@@ -334,7 +403,9 @@ void OLED_DrawBMP(unsigned char x0, unsigned char y0, unsigned char x1, unsigned
 	}
 }
 
-
+/**
+ * @brief OELD Init
+ */
 void OLED_Init(void)
 {
 
@@ -376,6 +447,16 @@ void OLED_Init(void)
 	OLED_WR_Byte(0xAF, OLED_CMD); //--turn on oled panel
 }
 
+/**
+ * @brief 
+ * 
+ * @param x 
+ * @param y 
+ * @param num 
+ * @param precisenum 
+ * @param precisefloat 
+ * @param size 
+ */
 void OLED_ShowUnFloat(uint8_t x, uint8_t y, double num, uint8_t precisenum, uint8_t precisefloat, uint8_t size)
 {
 	uint8_t i = 0, j;
@@ -395,19 +476,19 @@ void OLED_ShowUnFloat(uint8_t x, uint8_t y, double num, uint8_t precisenum, uint
 	{
 		num /= 10;
 	}
-	integer = (int)num;				   
-	decimal = (double)(num - integer); 
+	integer = (int)num;
+	decimal = (double)(num - integer);
 
-	OLED_ShowNum(x, y, integer, precisenum, size);				
-	OLED_ShowChar(x + (size / 2) * (precisenum), y, '.', size); 
+	OLED_ShowNum(x, y, integer, precisenum, size);
+	OLED_ShowChar(x + (size / 2) * (precisenum), y, '.', size);
 
 	x = x + (size / 2) * (precisenum + 2);
-	while (precisefloat) 
+	while (precisefloat)
 	{
 		decimal = decimal * 10;
-		integer = (int)decimal; 
+		integer = (int)decimal;
 		decimal = (double)(decimal - integer);
-		OLED_ShowChar(x + (size / 2) * (i - 1), y, integer + '0', size); 
+		OLED_ShowChar(x + (size / 2) * (i - 1), y, integer + '0', size);
 		i++;
 		precisefloat--;
 	}
